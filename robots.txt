@@ -1,0 +1,15 @@
+# robots.txt для StoneProcessing
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /uploads/
+Disallow: /login.php
+Disallow: /register.php
+Disallow: /logout.php
+Disallow: /profile.php
+Disallow: /orders.php
+Disallow: /cart.php
+Disallow: /checkout.php
+
+Sitemap: http://localhost/project/sitemap.xml

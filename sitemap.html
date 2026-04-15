@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта сайта - StoneProcessing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .sitemap-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 20px;
+        }
+
+        /* Стили для карты сайта */
+        .sitemap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Уровень 1 - Главная */
+        .level-1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .main-node {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .main-node:hover {
+            transform: translateY(-3px);
+        }
+
+        .main-node i {
+            margin-right: 10px;
+        }
+
+        /* Стрелка вниз */
+        .arrow-down {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 2rem;
+            color: #3498db;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Уровень 2 - Основные разделы */
+        .level-2 {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .level-2::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background: #3498db;
+        }
+
+        .section-node {
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .section-title {
+            background: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .section-title:hover {
+            background: #2c3e50;
+            transform: scale(1.05);
+        }
+
+        .section-title i {
+            margin-right: 8px;
+        }
+
+        /* Стрелки между разделами */
+        .section-arrow {
+            font-size: 1.5rem;
+            color: #6c757d;
+            align-self: center;
+        }
+
+        /* Подразделы */
+        .sub-items {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .sub-items li {
+            margin: 8px 0;
+        }
+
+        .sub-items a {
+            color: #495057;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .sub-items a:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            color: #3498db;
+        }
+
+        .sub-items a i {
+            margin-right: 8px;
+            width: 20px;
+            color: #3498db;
+        }
+
+        /* Уровень 3 - Админка и Пользователь */
+        .level-3 {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 50px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px dashed #dee2e6;
+            position: relative;
+        }
+
+        .level-3::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 20px;
+            background: #6c757d;
+        }
+
+        .admin-section, .user-section {
+            flex: 1;
+            min-width: 250px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .admin-title {
+            background: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .user-title {
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .admin-items, .user-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .admin-items li, .user-items li {
+            margin: 10px 0;
+        }
+
+        .admin-items a, .user-items a {
+            color: #495057;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .admin-items a:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .user-items a:hover {
+            background: #28a745;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* Горизонтальные стрелки между уровнями */
+        .arrow-horizontal {
+            text-align: center;
+            font-size: 2rem;
+            color: #6c757d;
+            margin: 20px 0;
+        }
+
+        /* Ссылка на главную */
+        .back-home {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-home a {
+            background: #2c3e50;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .back-home a:hover {
+            background: #3498db;
+            transform: translateY(-3px);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .sitemap-container {
+                padding: 20px;
+            }
+            .level-2 {
+                flex-direction: column;
+                align-items: center;
+            }
+            .section-arrow {
+                transform: rotate(90deg);
+            }
+            .level-3 {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sitemap-container">
+        <h1><i class="fas fa-gem"></i> StoneProcessing</h1>
+        <div class="subtitle">Карта сайта - структура веб-приложения</div>
+
+        <div class="sitemap">
+            <!-- Уровень 1: Главная -->
+            <div class="level-1">
+                <div class="main-node">
+                    <i class="fas fa-home"></i> Главная страница
+                </div>
+            </div>
+
+            <!-- Стрелка вниз -->
+            <div class="arrow-down">
+                <i class="fas fa-arrow-down"></i>
+            </div>
+
+            <!-- Уровень 2: Основные разделы -->
+            <div class="level-2">
+                <div class="section-node">
+                    <div class="section-title">
+                        <i class="fas fa-store"></i> Магазин
+                    </div>
+                    <ul class="sub-items">
+                        <li><a href="store/index.php"><i class="fas fa-list"></i> Каталог камней</a></li>
+                        <li><a href="store/stone.php"><i class="fas fa-info-circle"></i> Карточка камня</a></li>
+                        <li><a href="store/cart.php"><i class="fas fa-shopping-cart"></i> Корзина</a></li>
+                    </ul>
+                </div>
+
+                <div class="section-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="section-node">
+                    <div class="section-title">
+                        <i class="fas fa-user-circle"></i> Пользователь
+                    </div>
+                    <ul class="sub-items">
+                        <li><a href="login.php"><i class="fas fa-sign-in-alt"></i> Вход</a></li>
+                        <li><a href="register.php"><i class="fas fa-user-plus"></i> Регистрация</a></li>
+                        <li><a href="profile.php"><i class="fas fa-id-card"></i> Личный кабинет</a></li>
+                        <li><a href="profile_messages.php"><i class="fas fa-envelope"></i> Мои сообщения</a></li>
+                        <li><a href="orders.php"><i class="fas fa-shopping-bag"></i> Мои заказы</a></li>
+                    </ul>
+                </div>
+
+                <div class="section-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="section-node">
+                    <div class="section-title">
+                        <i class="fas fa-info-circle"></i> Информация
+                    </div>
+                    <ul class="sub-items">
+                        <li><a href="contact.php"><i class="fas fa-phone-alt"></i> Контакты</a></li>
+                        <li><a href="sitemap.html"><i class="fas fa-map"></i> Карта сайта</a></li>
+                        <li><a href="404.php"><i class="fas fa-exclamation-triangle"></i> 404 Страница</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Стрелка вниз -->
+            <div class="arrow-down">
+                <i class="fas fa-arrow-down"></i>
+            </div>
+
+            <!-- Уровень 3: Админка и Дополнительно -->
+            <div class="level-3">
+                <!-- Административная панель -->
+                <div class="admin-section">
+                    <div class="admin-title">
+                        <i class="fas fa-cog"></i> Административная панель
+                    </div>
+                    <ul class="admin-items">
+                        <li><a href="admin/index.php"><i class="fas fa-tachometer-alt"></i> Дашборд</a></li>
+                        <li><a href="admin/stones.php"><i class="fas fa-gem"></i> Управление камнями</a></li>
+                        <li><a href="admin/categories.php"><i class="fas fa-tags"></i> Категории камней</a></li>
+                        <li><a href="admin/services.php"><i class="fas fa-cogs"></i> Услуги обработки</a></li>
+                        <li><a href="admin/orders.php"><i class="fas fa-shopping-cart"></i> Управление заказами</a></li>
+                        <li><a href="admin/users.php"><i class="fas fa-users"></i> Управление пользователями</a></li>
+                        <li><a href="admin/messages.php"><i class="fas fa-envelope"></i> Сообщения</a></li>
+                    </ul>
+                </div>
+
+                <!-- Дополнительные разделы -->
+                <div class="user-section">
+                    <div class="user-title">
+                        <i class="fas fa-gem"></i> Категории камней
+                    </div>
+                    <ul class="user-items">
+                        <li><a href="store/index.php?category=1"><i class="fas fa-gem"></i> Мрамор</a></li>
+                        <li><a href="store/index.php?category=2"><i class="fas fa-gem"></i> Гранит</a></li>
+                        <li><a href="store/index.php?category=3"><i class="fas fa-gem"></i> Оникс</a></li>
+                        <li><a href="store/index.php?category=4"><i class="fas fa-gem"></i> Травертин</a></li>
+                        <li><a href="store/index.php?category=5"><i class="fas fa-gem"></i> Сланец</a></li>
+                        <li><a href="store/index.php?category=6"><i class="fas fa-gem"></i> Кварцит</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Дополнительные стрелки -->
+            <div class="arrow-horizontal">
+                <i class="fas fa-arrow-down"></i>
+                <i class="fas fa-arrow-down"></i>
+            </div>
+
+            <!-- Файлы конфигурации -->
+            <div class="level-2">
+                <div class="section-node">
+                    <div class="section-title">
+                        <i class="fas fa-database"></i> Системные файлы
+                    </div>
+                    <ul class="sub-items">
+                        <li><a href="config/db.php"><i class="fas fa-code"></i> config/db.php</a></li>
+                        <li><a href="database.sql"><i class="fas fa-database"></i> database.sql</a></li>
+                        <li><a href="uploads/"><i class="fas fa-folder"></i> uploads/</a></li>
+                        <li><a href="robots.txt"><i class="fas fa-robot"></i> robots.txt</a></li>
+                        <li><a href="sitemap.xml"><i class="fas fa-map"></i> sitemap.xml</a></li>
+                    </ul>
+                </div>
+
+                <div class="section-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="section-node">
+                    <div class="section-title">
+                        <i class="fas fa-plug"></i> API и AJAX
+                    </div>
+                    <ul class="sub-items">
+                        <li><a href="upload_avatar.php"><i class="fas fa-upload"></i> upload_avatar.php</a></li>
+                        <li><a href="check_email.php"><i class="fas fa-envelope"></i> check_email.php</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Кнопка возврата на главную -->
+            <div class="back-home">
+                <a href="store/index.php">
+                    <i class="fas fa-arrow-left"></i> Вернуться на главную
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
